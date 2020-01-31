@@ -24,7 +24,7 @@ class Vocab:
             stoi[token] = len(itos)
 
         for token, count in freqs.most_common(self.max_size):
-            assert token not in itos
+            assert (token not in itos) or (token in self.special_tokens) 
             if count < self.min_freq:
                 break
             else:

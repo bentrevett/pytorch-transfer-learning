@@ -67,9 +67,10 @@ yelp_train, yelp_test = get_dataset('YelpReviewPolarity', tokenizer.tokenize)
 save_data('data/yelp_train.jsonl', yelp_train, ['label', 'tokens', 'tags'])
 save_data('data/yelp_test.jsonl', yelp_test, ['label', 'tokens', 'tags'])
 
-amazon_train, amazon_test = get_dataset('AmazonReviewPolarity', tokenizer.tokenize)
+amazon_train, amazon_test = get_dataset('AmazonReviewPolarity',
+                                        tokenizer.tokenize)
 
 save_data('data/amazon_train.jsonl', amazon_train, ['label', 'tokens', 'tags'])
 save_data('data/amazon_test.jsonl', amazon_test, ['label', 'tokens', 'tags'])
 
-torch.save(tokenizer, 'tokenizer.pt')
+torch.save(tokenizer, 'tokenizer_novocab.pt')
