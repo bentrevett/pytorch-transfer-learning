@@ -27,8 +27,8 @@ parser.add_argument('--seed', default=1, type=int)
 parser.add_argument('--load', default=None, type=str)
 args = parser.parse_args()
 
-with open(f'checkpoints/results-{args.name}.txt', 'w+') as f:
-    f.write('train_loss\ttrain_acc\ttest_loss\ttest_acc')
+with open(f'results/{args.name}.txt', 'w+') as f:
+    f.write('train_loss\ttrain_acc\ttest_loss\ttest_acc\n')
 
 random.seed(args.seed)
 np.random.seed(args.seed)
@@ -140,8 +140,8 @@ for epoch in range(args.n_epochs):
         torch.save(model.state_dict(), f'checkpoints/model-{args.name}.pt')
         torch.save(head.state_dict(), f'checkpoints/head-{args.name}.pt')
 
-    with open(f'checkpoints/results-{args.name}.txt', 'a+') as f:
-        f.write(f'{train_loss}\t{train_acc}\t{test_loss}\t{test_acc}')
+    with open(f'results/results-{args.name}.txt', 'a+') as f:
+        f.write(f'{train_loss}\t{train_acc}\t{test_loss}\t{test_acc}\n')
 
     print(f'Epoch: {epoch+1:02}')
     print(f'\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%')
