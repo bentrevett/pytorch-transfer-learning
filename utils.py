@@ -30,6 +30,13 @@ def categorical_accuracy(prediction, label):
     return correct.sum() / torch.FloatTensor([label.shape[0]])
 
 
+def categorical_tag_accuracy(predictions, tags, tag_pad_idx):
+    max_preds = predictions.argmax(dim=1, keepdim=True)
+    non_pad_elements = (tags != tag_pad_idx).nonzero()
+    correct = max_preds[non_pad_elements].squeeze(1).eq(tags[non_pad_elements])
+    return correct.sum() / torch.FloatTensor([tags[non_pad_elements].shape[0]])
+
+
 class TextDataset(Dataset):
     def __init__(self, path, tokenizer, fields):
         self.tokenizer = tokenizer
