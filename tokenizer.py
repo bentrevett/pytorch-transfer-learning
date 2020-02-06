@@ -43,22 +43,22 @@ class NLTKTokenizer:
 
         return tokens, tags
 
-    def numericalize(self, example, vocab_names):
+    def numericalize(self, example):
         """
         Takes a list of tokens and a vocabulary, numericalizes
         """
 
         assert isinstance(example, dict)
-        assert isinstance(vocab_names, (list, tuple))
 
-        for vocab_name in vocab_names:
-            if vocab_name is not None:
-                vocab = self.vocabs[vocab_name]
-                field = example[vocab_name]
-                if vocab.unk_token is not None:
-                    unk_idx = vocab.stoi[vocab.unk_token]
-                    example[vocab_name] = [vocab.stoi.get(t, unk_idx) for t in field]
-                else:
-                    example[vocab_name] = [vocab.stoi[t] for t in field]
+        for vocab_name in self.vocabs.keys():
+            if vocab_name not in example:
+                continue
+            vocab = self.vocabs[vocab_name]
+            field = example[vocab_name]
+            if vocab.unk_token is not None:
+                unk_idx = vocab.stoi[vocab.unk_token]
+                example[vocab_name] = [vocab.stoi.get(t, unk_idx) for t in field]
+            else:
+                example[vocab_name] = [vocab.stoi[t] for t in field]
 
         return example

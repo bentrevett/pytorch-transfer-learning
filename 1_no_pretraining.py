@@ -19,7 +19,7 @@ def get_data(data, numericalizer, fields):
         for field in datum_fields:
             if field not in fields:
                 del datum[field]
-        _data.append(numericalizer(datum, ['tokens']))
+        _data.append(numericalizer(datum))
     return _data
 
 
