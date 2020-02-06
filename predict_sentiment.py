@@ -9,7 +9,7 @@ import random
 import numpy as np
 
 import models
-from utils import TextDataset
+from utils import TextDataset, categorical_accuracy
 
 os.makedirs('checkpoints', exist_ok=True)
 
@@ -62,12 +62,6 @@ optimizer = optim.Adam(list(model.parameters()) + list(head.parameters()),
 criterion = nn.CrossEntropyLoss()
 
 criterion = criterion.cuda()
-
-
-def categorical_accuracy(prediction, label):
-    max_preds = prediction.argmax(dim=1, keepdim=True)
-    correct = max_preds.squeeze(1).eq(label)
-    return correct.sum() / torch.FloatTensor([label.shape[0]])
 
 
 def train(model, head, iterator, optimizer, criterion):

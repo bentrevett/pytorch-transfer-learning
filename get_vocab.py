@@ -27,7 +27,7 @@ def get_freqs(path, fields):
 yelp_freqs = get_freqs('data/yelp_train.jsonl', ['tokens', 'tags'])
 
 yelp_tokens_vocab = Vocab(yelp_freqs['tokens'], max_size=25_000,
-                          min_freq=2, special_tokens=['<sos>', '<eos>'])
+                          min_freq=2, special_tokens=['<sos>', '<eos>', '<mask>'])
 
 yelp_tags_vocab = Vocab(yelp_freqs['tags'], unk_token=None,
                         special_tokens=['<sos>', '<eos>'])
