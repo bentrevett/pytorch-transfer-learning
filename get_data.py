@@ -50,7 +50,7 @@ def save_data(path, data, field_names):
     """
 
     with open(path, 'w+') as f:
-        for example in tqdm(data):
+        for example in tqdm(data, desc='Saving data to jsonl...'):
             assert len(example) == len(field_names)
             _example = dict()
             for field, name in zip(example, field_names):
@@ -59,7 +59,7 @@ def save_data(path, data, field_names):
             f.write('\n')
 
 
-tokenizer = NLTKTokenizer(lower=True, max_length=250, sos_token='<sos>', 
+tokenizer = NLTKTokenizer(lower=True, max_length=250, sos_token='<sos>',
                           eos_token='<eos>')
 
 yelp_train, yelp_test = get_dataset('YelpReviewPolarity', tokenizer.tokenize)
