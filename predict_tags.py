@@ -66,7 +66,7 @@ head = head.cuda()
 optimizer = optim.Adam(list(model.parameters()) + list(head.parameters()),
                        lr=args.lr)
 
-criterion = nn.CrossEntropyLoss(ignore_idx=tag_pad_idx)
+criterion = nn.CrossEntropyLoss(ignore_index=tag_pad_idx)
 
 criterion = criterion.cuda()
 
