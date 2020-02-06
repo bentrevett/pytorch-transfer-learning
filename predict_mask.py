@@ -124,18 +124,18 @@ def evaluate(model, head, iterator, criterion):
     return epoch_loss / len(iterator), epoch_acc / len(iterator)
 
 
-best_valid_loss = float('inf')
+best_test_loss = float('inf')
 
 for epoch in range(args.n_epochs):
 
     train_loss, train_acc = train(model, head, train_iterator, optimizer, criterion)
-    valid_loss, valid_acc = evaluate(model, head, test_iterator, criterion)
+    test_loss, test_acc = evaluate(model, head, test_iterator, criterion)
 
-    if valid_loss < best_valid_loss:
-        best_valid_loss = valid_loss
+    if test_loss < best_test_loss:
+        best_test_loss = test_loss
         torch.save(model.state_dict(), f'checkpoints/model-{args.name}.pt')
         torch.save(head.state_dict(), f'checkpoints/head-{args.name}.pt')
 
     print(f'Epoch: {epoch+1:02}')
     print(f'\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%')
-    print(f'\t Val. Loss: {valid_loss:.3f} |  Val. Acc: {valid_acc*100:.2f}%')
+    print(f'\t Test Loss: {test_loss:.3f} |  Test Acc: {test_acc*100:.2f}%')
