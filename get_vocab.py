@@ -27,14 +27,31 @@ def get_freqs(path, fields):
 yelp_freqs = get_freqs('data/yelp_train.jsonl', ['tokens', 'tags'])
 
 yelp_tokens_vocab = Vocab(yelp_freqs['tokens'], max_size=25_000,
-                          min_freq=2, special_tokens=['<sos>', '<eos>', '<mask>'])
+                          min_freq=2,
+                          special_tokens=['<sos>', '<eos>', '<mask>'])
 
 yelp_tags_vocab = Vocab(yelp_freqs['tags'], unk_token=None,
                         special_tokens=['<sos>', '<eos>'])
 
-tokenizer = torch.load('tokenizer_novocab.pt')
+tokenizer = torch.load('tokenizer_no_vocab.pt')
 
 tokenizer.vocabs['tokens'] = yelp_tokens_vocab
 tokenizer.vocabs['tags'] = yelp_tags_vocab
 
-tokenizer = torch.save(tokenizer, 'tokenizer.pt')
+tokenizer = torch.save(tokenizer, 'tokenizer_yelp.pt')
+
+amazon_freqs = get_freqs('data/amazon_train.jsonl', ['tokens', 'tags'])
+
+amazon_tokens_vocab = Vocab(amazon_freqs['tokens'], max_size=25_000,
+                            min_freq=2,
+                            special_tokens=['<sos>', '<eos>', '<mask>'])
+
+amazon_tags_vocab = Vocab(amazon_freqs['tags'], unk_token=None,
+                          special_tokens=['<sos>', '<eos>'])
+
+tokenizer = torch.load('tokenizer_no_vocab.pt')
+
+tokenizer.vocabs['tokens'] = amazon_tokens_vocab
+tokenizer.vocabs['tags'] = amazon_tags_vocab
+
+tokenizer = torch.save(tokenizer, 'tokenizer_amazon.pt')

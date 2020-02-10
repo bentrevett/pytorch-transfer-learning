@@ -16,7 +16,9 @@ os.makedirs('results', exist_ok=True)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True)
-parser.add_argument('--batch_size', default=512, type=int)
+parser.add_argument('--data', required=True)
+parser.add_argument('--vocab', default=None, type=str)
+parser.add_argument('--batch_size', default=256, type=int)
 parser.add_argument('--embedding_dim', default=128, type=int)
 parser.add_argument('--hidden_dim', default=256, type=int)
 parser.add_argument('--n_layers', default=3, type=int)
@@ -27,6 +29,9 @@ parser.add_argument('--seed', default=1, type=int)
 parser.add_argument('--load', default=None, type=str)
 args = parser.parse_args()
 
+if args.vocab is None:
+    args.vocab = args.data
+
 with open(f'results/{args.name}.txt', 'w+') as f:
     f.write('train_loss\ttrain_acc\ttest_loss\ttest_acc\n')
 
@@ -36,10 +41,10 @@ torch.manual_seed(args.seed)
 torch.cuda.manual_seed(args.seed)
 torch.backends.cudnn.deterministic = True
 
-tokenizer = torch.load('tokenizer.pt')
+tokenizer = torch.load(f'tokenizer_{args.vocab}.pt')
 
-train_data = MaskDataset('data/yelp_train.jsonl', tokenizer, ['tokens'])
-test_data = MaskDataset('data/yelp_test.jsonl', tokenizer, ['tokens'])
+train_data = MaskDataset(f'data/{args.data}_train.jsonl', tokenizer, ['tokens'])
+test_data = MaskDataset(f'data/{args.data}_test.jsonl', tokenizer, ['tokens'])
 
 train_iterator = DataLoader(train_data, batch_size=args.batch_size,
                             shuffle=True, collate_fn=train_data.collate)
@@ -140,7 +145,7 @@ for epoch in range(args.n_epochs):
         torch.save(model.state_dict(), f'checkpoints/model-{args.name}.pt')
         torch.save(head.state_dict(), f'checkpoints/head-{args.name}.pt')
 
-    with open(f'results/results-{args.name}.txt', 'a+') as f:
+    with open(f'results/{args.name}.txt', 'a+') as f:
         f.write(f'{train_loss}\t{train_acc}\t{test_loss}\t{test_acc}\n')
 
     print(f'Epoch: {epoch+1:02}')

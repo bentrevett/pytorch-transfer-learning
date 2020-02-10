@@ -1,5 +1,6 @@
-python predict_sentiment.py --name predict_sentiment_no_pretrain
-python predict_tags.py --name predict_tag_no_pretrain
-python predict_mask.py --name predict_mask_no_pretrain
-python predict_sentiment.py --name predict_sentiment_tag_pretrain --load checkpoints/model-predict_tag_no_pretrain
-python predict_sentiment.py --name predict_sentiment_mask_pretrain --load checkpoints/model-predict_mask_no_pretrain
+python predict_sentiment.py --data yelp --vocab yelp --name sentiment_yelp_no_pretrain_yelp_vocab
+python predict_sentiment.py --data yelp --vocab amazon --name sentiment_yelp_no_pretrain_amazon_vocab
+python predict_mask.py --data amazon --vocab amazon --name mask_amazon_amazon_vocab
+python predict_mask.py --data amazon --vocab yelp --name mask_amazon_yelp_vocab
+python predict_sentiment.py --data yelp --vocab amazon --name sentiment_mask_amazon_pretrain_amazon_vocab --load checkpoints/model-mask_amazon_amazon_vocab.pt
+python predict_sentiment.py --data yelp --vocab yelp --name sentiment_mask_amazon_pretrain_yelp_vocab --load checkpoints/model-mask_amazon_yelp_vocab.pt

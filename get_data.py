@@ -72,4 +72,4 @@ amazon_train, amazon_test = get_dataset('AmazonReviewPolarity', tokenizer.tokeni
 save_data('data/amazon_train.jsonl', amazon_train, ['label', 'tokens', 'tags'])
 save_data('data/amazon_test.jsonl', amazon_test, ['label', 'tokens', 'tags'])
 
-torch.save(tokenizer, 'tokenizer_novocab.pt')
+torch.save(tokenizer, 'tokenizer_no_vocab.pt')
